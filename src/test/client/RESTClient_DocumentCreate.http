@@ -1,0 +1,12 @@
+
+POST http://localhost:8080/api/document/create HTTP/1.1
+content-type: application/json
+Accept: application/json
+{
+    "documentTitle": "Lecture theoretical foundations of cryptography - Lesson 14: Random oracle signatures",
+    "documentDes": "\"Lecture Theoretical foundations of cryptography - Lesson 14: Random oracle signatures\" present recap and looking ahead; random oracle model; advantages and caveats; a signature scheme in the RO model.",
+    "documentSource": "TaiLieuvn",
+    "dateCreate": "10/05/2021",
+    "review": "5",
+    "downloaded": "2"
+}
