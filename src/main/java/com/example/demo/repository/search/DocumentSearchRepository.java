@@ -39,7 +39,7 @@ public class DocumentSearchRepository {
 
         fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
-        // indexing();
+        indexing();
 
         // create the query using Hibernate Search query DSL
         QueryBuilder queryBuilder =
