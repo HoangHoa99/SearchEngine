@@ -1,7 +1,5 @@
 package com.example.demo.dto.request;
 
-import com.example.demo.constant.SortField;
-import com.example.demo.constant.SortType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -19,8 +17,10 @@ public class DocumentSearchRequest {
     @EqualsAndHashCode(callSuper = false)
     public class DocumentSort{
 
-        private String sortField = SortField.REVIEW;
+        private String sortField;
 
-        private String sortType = SortType.ASC;
+        private String sortType;
     }
+
+    private String page;
 }

@@ -12,11 +12,13 @@ import com.example.demo.comparator.ReviewCompare;
 import com.example.demo.constant.SortField;
 import com.example.demo.constant.SortType;
 import com.example.demo.dao.Document;
+import com.example.demo.dao.entity.SearchEntity;
 import com.example.demo.dto.request.DocumentSearchRequest;
 import com.example.demo.dto.request.DocumentSearchRequest.DocumentSort;
 import com.example.demo.repository.DocumentRepository;
 import com.example.demo.repository.search.DocumentSearchRepository;
 import com.example.demo.service.DocumentSearchService;
+import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -32,42 +34,46 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
 
     @Override
     public List<Document> getAll() {
-        
+
         return documentRepository.findAll();
     }
 
     @Override
     public List<Document> search(DocumentSearchRequest request) {
 
-        List<Document> searchList = new ArrayList<>();
-        
-        if(Objects.isNull(request)){
+        try {
+            List<Document> searchList = new ArrayList<>();
+
+            if (Objects.isNull(request)) {
+                return searchList;
+            }
+
+            String searchEntityAsString = this.convertToString(request);
+
+            searchList = documentSearchRepository.search(searchEntityAsString);
+
+            if (StringUtils.isNotBlank(request.getFilter())) {
+                this.filterList(searchList, request.getFilter());
+            }
+
+            if (Objects.nonNull(request.getSort()) && StringUtils.isNotBlank(request.getSort().getSortField())) {
+
+                this.sortList(searchList, request.getSort());
+            }
+
             return searchList;
+        } catch (Exception e) {
+            return new ArrayList<>();
         }
-
-        searchList = documentSearchRepository.search(request.getQueryString());
-
-        if(StringUtils.isNotBlank(request.getFilter())){
-            this.filterList(searchList, request.getFilter());
-        }
-
-        if(Objects.nonNull(request.getSort()) && StringUtils.isNotBlank(request.getSort().getSortField())){
-
-            this.sortList(searchList, request.getSort());
-        }
-
-        return searchList;
-    }
-        
-    private void filterList(List<Document> searchList, String filter){
-        searchList.stream()
-                .filter(o -> filter.equals(o.getDocumentSource()))
-                .collect(Collectors.toList());
     }
 
-    private void sortList(List<Document> searchList, DocumentSort sort){
+    private void filterList(List<Document> searchList, String filter) {
+        searchList.stream().filter(o -> filter.equals(o.getDocumentSource())).collect(Collectors.toList());
+    }
 
-        switch(sort.getSortField()){
+    private void sortList(List<Document> searchList, DocumentSort sort) {
+
+        switch (sort.getSortField()) {
             case SortField.DATE_CREATE:
                 searchList.sort(new DateCreateCompare());
                 break;
@@ -78,11 +84,22 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
                 searchList.sort(new ReviewCompare());
                 break;
             default:
-                break;            
-        }   
-        
-        if(SortType.DESC.equals(sort.getSortType())){
+                break;
+        }
+
+        if (SortType.DESC.equals(sort.getSortType())) {
             Collections.reverse(searchList);
         }
+    }
+
+    String convertToString(DocumentSearchRequest request) {
+
+        Gson gson = new Gson();
+
+        SearchEntity searchEntity = new SearchEntity();
+        searchEntity.setPage(request.getPage());
+        searchEntity.setQuery(request.getQueryString());
+
+        return gson.toJson(searchEntity);
     }
 }
