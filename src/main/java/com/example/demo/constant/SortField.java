@@ -9,4 +9,5 @@ public final class SortField {
     public static final String DATE_CREATE = "dateCreate";
     public static final String REVIEW = "review";
     public static final String DOWNLOADED = "downloaded";
+    public static final String CLICK_COUNT = "click_count";
 }

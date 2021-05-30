@@ -19,7 +19,7 @@ public class DocumentSearchRequest {
     @EqualsAndHashCode(callSuper = false)
     public class DocumentSort{
 
-        private String sortField = SortField.DATE_CREATE;
+        private String sortField = SortField.REVIEW;
 
         private String sortType = SortType.ASC;
     }

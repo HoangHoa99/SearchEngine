@@ -42,4 +42,8 @@ public class Document {
     @Field
     @Column(name = "downloaded")
     private Integer downloaded;
+    
+    @Field
+    @Column(name = "click_count")
+    private Integer clickCount;
 }
