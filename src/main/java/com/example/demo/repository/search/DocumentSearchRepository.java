@@ -63,7 +63,7 @@ public class DocumentSearchRepository {
                 .matching("*" + searchEntity.getQuery().toLowerCase() + "*")
                 .createQuery();
 
-        Integer firstResult = Integer.valueOf(searchEntity.getPage());
+        Integer firstResult = searchEntity.getPage() - 1;
         if(firstResult != 0){
             firstResult = firstResult * 20 + 1;
         }

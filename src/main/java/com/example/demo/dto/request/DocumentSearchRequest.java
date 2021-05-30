@@ -1,5 +1,7 @@
 package com.example.demo.dto.request;
 
+import javax.validation.constraints.Positive;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,5 +24,6 @@ public class DocumentSearchRequest {
         private String sortType;
     }
 
-    private String page;
+    @Positive
+    private Integer page;
 }

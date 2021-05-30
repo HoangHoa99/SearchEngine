@@ -8,5 +8,5 @@ import lombok.EqualsAndHashCode;
 public class SearchEntity {
     
     String query;
-    String page;
+    Integer page;
 }
