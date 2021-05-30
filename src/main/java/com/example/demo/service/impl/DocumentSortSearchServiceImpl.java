@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.constant.SortField;
@@ -12,7 +13,14 @@ public class DocumentSortSearchServiceImpl implements DocumentSortSearchService{
 
     @Override
     public List<String> getAllSortField() {
-        return List.of(SortField.CLICK_COUNT, SortField.REVIEW, SortField.DOWNLOADED, SortField.DATE_CREATE);
+
+        List<String> returnList = new ArrayList<>();
+        returnList.add(SortField.CLICK_COUNT);
+        returnList.add(SortField.REVIEW);
+        returnList.add(SortField.DOWNLOADED);
+        returnList.add(SortField.DATE_CREATE);
+
+        return returnList;
     }
     
 }
