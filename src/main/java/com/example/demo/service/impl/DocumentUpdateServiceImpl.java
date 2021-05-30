@@ -21,9 +21,9 @@ public class DocumentUpdateServiceImpl implements DocumentUpdateService {
         
         Document document = documentRepository.getById(request.getId());
 
-        int newReview = document.getReview() + 1;
+        int clickCount = document.getClickCount() + 1;
 
-        document.setReview(newReview);
+        document.setClickCount(clickCount);
 
         documentRepository.save(document);
 
