@@ -3,7 +3,6 @@ package com.example.demo.repository.search;
 import com.example.demo.dao.Document;
 import com.example.demo.dao.entity.SearchEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.lucene.search.Query;
@@ -44,7 +43,7 @@ public class DocumentSearchRepository {
         }
     }
 
-    public List<Document> search(String text) throws JsonMappingException, JsonProcessingException {
+    public List<Document> search(String text) throws JsonProcessingException {
 
         fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 

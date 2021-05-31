@@ -9,4 +9,6 @@ public class SearchEntity {
     
     String query;
     Integer page;
+    String sortField;
+    String sortType;
 }

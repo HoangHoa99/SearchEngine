@@ -7,11 +7,15 @@ import javax.persistence.*;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.SortableField;
+import org.hibernate.search.annotations.Store;
 import org.hibernate.search.annotations.TokenFilterDef;
 import org.hibernate.search.annotations.TokenizerDef;
 
@@ -50,19 +54,20 @@ public class Document {
     @Column(name = "document_source")
     private String documentSource;
 
-    @Field
-    @Column(name = "date_create")
+    @Field(index = Index.NO, store = Store.NO, analyze = Analyze.NO)
+    @SortableField
     private LocalDate dateCreate;
 
-    @Field
+    @Field(index = Index.NO, store = Store.NO, analyze = Analyze.NO)
+    @SortableField
     @Column(name = "review")
     private Integer review;
 
-    @Field
-    @Column(name = "downloaded")
+    @Field(name = "sortDownloaded", index = Index.NO, store = Store.NO, analyze = Analyze.NO)
+    @SortableField(forField = "sortDownloaded")
     private Integer downloaded;
     
-    @Field
-    @Column(name = "click_count")
+    @Field(index = Index.NO, store = Store.NO, analyze = Analyze.NO)
+    @SortableField
     private Integer clickCount = 0;
 }

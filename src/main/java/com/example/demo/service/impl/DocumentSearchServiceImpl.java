@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import com.example.demo.comparator.DateCreateCompare;
 import com.example.demo.comparator.DownloadedCompare;
 import com.example.demo.comparator.ReviewCompare;
-import com.example.demo.constant.SortField;
+import com.example.demo.constant.SortFieldConst;
 import com.example.demo.constant.SortType;
 import com.example.demo.dao.Document;
 import com.example.demo.dao.entity.SearchEntity;
@@ -74,13 +74,13 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
     private void sortList(List<Document> searchList, DocumentSort sort) {
 
         switch (sort.getSortField()) {
-            case SortField.DATE_CREATE:
+            case SortFieldConst.DATE_CREATE:
                 searchList.sort(new DateCreateCompare());
                 break;
-            case SortField.DOWNLOADED:
+            case SortFieldConst.DOWNLOADED:
                 searchList.sort(new DownloadedCompare());
                 break;
-            case SortField.REVIEW:
+            case SortFieldConst.REVIEW:
                 searchList.sort(new ReviewCompare());
                 break;
             default:

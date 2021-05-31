@@ -25,5 +25,5 @@ public class DocumentSearchRequest {
     }
 
     @Positive
-    private Integer page;
+    private Integer page = 1;
 }
