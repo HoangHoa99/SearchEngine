@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Sort;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
@@ -66,10 +67,18 @@ public class DocumentSearchRepository {
         if(firstResult != 0){
             firstResult = firstResult * 20 + 1;
         }
+
+        Sort sort = queryBuilder.sort()
+            .byScore()
+            .andByField(searchEntity.getSortField())
+            .createSort();
+            
+
         // wrap Lucene query in an Hibernate Query object
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, Document.class);
-        jpaQuery.setFirstResult(firstResult);
-        jpaQuery.setMaxResults(20);
+        jpaQuery.setSort(sort)
+                .setFirstResult(firstResult)
+                .setMaxResults(20);
 
         // execute search and return results (sorted by relevance as default)
         @SuppressWarnings("unchecked")

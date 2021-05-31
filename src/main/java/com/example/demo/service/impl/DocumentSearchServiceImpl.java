@@ -53,12 +53,7 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
             searchList = documentSearchRepository.search(searchEntityAsString);
 
             if (StringUtils.isNotBlank(request.getFilter())) {
-                this.filterList(searchList, request.getFilter());
-            }
-
-            if (Objects.nonNull(request.getSort()) && StringUtils.isNotBlank(request.getSort().getSortField())) {
-
-                this.sortList(searchList, request.getSort());
+                searchList = this.filterList(searchList, request.getFilter());
             }
 
             return searchList;
@@ -67,11 +62,11 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
         }
     }
 
-    private void filterList(List<Document> searchList, String filter) {
-        searchList.stream().filter(o -> filter.equals(o.getDocumentSource())).collect(Collectors.toList());
+    private List<Document> filterList(List<Document> searchList, String filter) {
+        return searchList.stream().filter(o -> filter.equalsIgnoreCase(o.getDocumentSource())).collect(Collectors.toList());
     }
 
-    private void sortList(List<Document> searchList, DocumentSort sort) {
+    public void sortList(List<Document> searchList, DocumentSort sort) {
 
         switch (sort.getSortField()) {
             case SortFieldConst.DATE_CREATE:
@@ -99,6 +94,8 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
         SearchEntity searchEntity = new SearchEntity();
         searchEntity.setPage(request.getPage());
         searchEntity.setQuery(request.getQueryString());
+        searchEntity.setSortField(request.getSort().getSortField());
+        searchEntity.setSortType(request.getSort().getSortType());
 
         return gson.toJson(searchEntity);
     }
