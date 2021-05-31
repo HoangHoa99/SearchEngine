@@ -64,5 +64,5 @@ public class Document {
     
     @Field
     @Column(name = "click_count")
-    private Integer clickCount;
+    private Integer clickCount = 0;
 }
