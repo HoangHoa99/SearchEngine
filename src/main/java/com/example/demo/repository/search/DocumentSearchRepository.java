@@ -5,6 +5,7 @@ import com.example.demo.dao.entity.SearchEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Sort;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Objects;
 
 
 @Repository
@@ -68,17 +70,24 @@ public class DocumentSearchRepository {
             firstResult = firstResult * 20 + 1;
         }
 
-        Sort sort = queryBuilder.sort()
-            .byScore()
-            .andByField(searchEntity.getSortField())
-            .createSort();
+        Sort sort = null;
+        
+        if(StringUtils.isNotBlank(searchEntity.getSortField())){
+            sort = queryBuilder.sort()
+                .byScore()
+                .andByField(searchEntity.getSortField())
+                .createSort();
+        }
             
 
         // wrap Lucene query in an Hibernate Query object
         FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, Document.class);
-        jpaQuery.setSort(sort)
+        jpaQuery
                 .setFirstResult(firstResult)
                 .setMaxResults(20);
+        if(Objects.nonNull(sort)){
+            jpaQuery.setSort(sort);
+        }
 
         // execute search and return results (sorted by relevance as default)
         @SuppressWarnings("unchecked")

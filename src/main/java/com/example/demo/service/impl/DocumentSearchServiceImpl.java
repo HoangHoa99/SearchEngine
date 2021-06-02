@@ -94,8 +94,11 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
         SearchEntity searchEntity = new SearchEntity();
         searchEntity.setPage(request.getPage());
         searchEntity.setQuery(request.getQueryString());
-        searchEntity.setSortField(request.getSort().getSortField());
-        searchEntity.setSortType(request.getSort().getSortType());
+
+        if(Objects.nonNull(request.getSort())){
+            searchEntity.setSortField(request.getSort().getSortField());
+            searchEntity.setSortType(request.getSort().getSortType());
+        }        
 
         return gson.toJson(searchEntity);
     }
