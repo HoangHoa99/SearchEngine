@@ -18,7 +18,7 @@ public class DocumentSortSearchServiceImpl implements DocumentSortSearchService{
         returnList.add(SortFieldConst.CLICK_COUNT);
         returnList.add(SortFieldConst.REVIEW);
         returnList.add(SortFieldConst.DOWNLOADED);
-        returnList.add(SortFieldConst.DATE_CREATE);
+        // returnList.add(SortFieldConst.DATE_CREATE);
 
         return returnList;
     }

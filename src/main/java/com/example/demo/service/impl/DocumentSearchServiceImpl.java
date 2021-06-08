@@ -66,26 +66,26 @@ public class DocumentSearchServiceImpl implements DocumentSearchService {
         return searchList.stream().filter(o -> filter.equalsIgnoreCase(o.getDocumentSource())).collect(Collectors.toList());
     }
 
-    public void sortList(List<Document> searchList, DocumentSort sort) {
+    // public void sortList(List<Document> searchList, DocumentSort sort) {
 
-        switch (sort.getSortField()) {
-            case SortFieldConst.DATE_CREATE:
-                searchList.sort(new DateCreateCompare());
-                break;
-            case SortFieldConst.DOWNLOADED:
-                searchList.sort(new DownloadedCompare());
-                break;
-            case SortFieldConst.REVIEW:
-                searchList.sort(new ReviewCompare());
-                break;
-            default:
-                break;
-        }
+    //     switch (sort.getSortField()) {
+    //         case SortFieldConst.DATE_CREATE:
+    //             searchList.sort(new DateCreateCompare());
+    //             break;
+    //         case SortFieldConst.DOWNLOADED:
+    //             searchList.sort(new DownloadedCompare());
+    //             break;
+    //         case SortFieldConst.REVIEW:
+    //             searchList.sort(new ReviewCompare());
+    //             break;
+    //         default:
+    //             break;
+    //     }
 
-        if (SortType.DESC.equals(sort.getSortType())) {
-            Collections.reverse(searchList);
-        }
-    }
+    //     if (SortType.DESC.equals(sort.getSortType())) {
+    //         Collections.reverse(searchList);
+    //     }
+    // }
 
     String convertToString(DocumentSearchRequest request) {
 
