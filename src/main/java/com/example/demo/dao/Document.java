@@ -5,7 +5,10 @@ import java.time.LocalDate;
 import javax.persistence.*;
 
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.core.StopFilterFactory;
+import org.apache.lucene.analysis.ngram.NGramFilterFactory;
 import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
+import org.apache.lucene.analysis.standard.StandardFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
@@ -21,33 +24,39 @@ import org.hibernate.search.annotations.TokenizerDef;
 
 import lombok.Data;
 
-@Entity
 @Table(name = "documents")
 @Data
-@Indexed
-@AnalyzerDef(name = "documentanalyzer",
-    tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-    filters = {
-        @TokenFilterDef(factory = LowerCaseFilterFactory.class),
-        @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
-            @Parameter(name = "language", value = "English")
-        })
-    }    
+@AnalyzerDef(name = "ngram",
+  tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class ),
+  filters = {
+    @TokenFilterDef(factory = StandardFilterFactory.class),
+    @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+    @TokenFilterDef(factory = StopFilterFactory.class),
+    @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
+        @Parameter(name = "language", value = "English")
+    })
+    // ,
+    // @TokenFilterDef(factory = NGramFilterFactory.class,
+    //   params = { 
+    //     @Parameter(name = "minGramSize", value = "1"),
+    //     @Parameter(name = "maxGramSize", value = "10") } 
+        // )
+  }
 )
+@Entity 
+@Indexed 
 public class Document {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Field
     @Column(name = "document_title")
-    @Analyzer(definition = "documentanalyzer")
+    @Field(analyzer=@Analyzer(definition="ngram") )
     private String documentTitle;
 
-    @Field
     @Column(name = "document_des")
-    @Analyzer(definition = "documentanalyzer")
+    @Field(analyzer=@Analyzer(definition="ngram") )
     private String documentDes;
 
     @Field
@@ -55,19 +64,18 @@ public class Document {
     private String documentSource;
 
     @Field(index = Index.NO, store = Store.NO, analyze = Analyze.NO)
-    @SortableField
+    // @SortableField
     private LocalDate dateCreate;
 
-    @Field(index = Index.NO, store = Store.NO, analyze = Analyze.NO)
-    @SortableField
-    @Column(name = "review")
+    @Field(name = "sortReview", index = Index.NO, store = Store.NO, analyze = Analyze.NO)
+    @SortableField(forField = "sortReview")
     private Integer review;
 
     @Field(name = "sortDownloaded", index = Index.NO, store = Store.NO, analyze = Analyze.NO)
     @SortableField(forField = "sortDownloaded")
     private Integer downloaded;
     
-    @Field(index = Index.NO, store = Store.NO, analyze = Analyze.NO)
-    @SortableField
+    @Field(name = "sortClickCount", index = Index.NO, store = Store.NO, analyze = Analyze.NO)
+    @SortableField(forField = "sortClickCount")
     private Integer clickCount = 0;
 }
