@@ -67,15 +67,15 @@ public class Document {
     // @SortableField
     private LocalDate dateCreate;
 
-    @Field(name = "sortReview", index = Index.NO, store = Store.NO, analyze = Analyze.NO)
-    @SortableField(forField = "sortReview")
+    @Field(name = "review", index = Index.NO, store = Store.NO, analyze = Analyze.NO)
+    @SortableField(forField = "review")
     private Integer review;
 
     @Field(name = "sortDownloaded", index = Index.NO, store = Store.NO, analyze = Analyze.NO)
     @SortableField(forField = "sortDownloaded")
     private Integer downloaded;
     
-    @Field(name = "sortClickCount", index = Index.NO, store = Store.NO, analyze = Analyze.NO)
-    @SortableField(forField = "sortClickCount")
+    @Field(name = "clickCount", index = Index.NO, store = Store.NO, analyze = Analyze.NO)
+    @SortableField(forField = "clickCount")
     private Integer clickCount = 0;
 }
