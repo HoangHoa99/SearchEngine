@@ -9,11 +9,13 @@ import com.example.demo.util.DateTimeUtil;
 import com.example.demo.util.StringUtil;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class DocumentCreateServiceImpl implements DocumentCreateService {
 
     private final DocumentRepository documentRepository;

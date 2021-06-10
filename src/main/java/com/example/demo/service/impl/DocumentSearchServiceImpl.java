@@ -1,20 +1,12 @@
 package com.example.demo.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import com.example.demo.comparator.DateCreateCompare;
-import com.example.demo.comparator.DownloadedCompare;
-import com.example.demo.comparator.ReviewCompare;
-import com.example.demo.constant.SortFieldConst;
-import com.example.demo.constant.SortType;
 import com.example.demo.dao.Document;
 import com.example.demo.dao.entity.SearchEntity;
 import com.example.demo.dto.request.DocumentSearchRequest;
-import com.example.demo.dto.request.DocumentSearchRequest.DocumentSort;
 import com.example.demo.repository.DocumentRepository;
 import com.example.demo.repository.search.DocumentSearchRepository;
 import com.example.demo.service.DocumentSearchService;
@@ -22,11 +14,13 @@ import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class DocumentSearchServiceImpl implements DocumentSearchService {
 
     private final DocumentRepository documentRepository;
