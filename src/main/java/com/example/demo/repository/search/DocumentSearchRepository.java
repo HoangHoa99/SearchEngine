@@ -68,8 +68,6 @@ public class DocumentSearchRepository {
 
         QueryBuilder docBuilder = searchFactory.buildQueryBuilder().forEntity( Document.class ).get();
 
-        
-
         // indexing();
 
         // create the query using Hibernate Search query DSL
