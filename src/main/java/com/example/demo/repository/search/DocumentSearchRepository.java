@@ -17,7 +17,6 @@ import org.hibernate.search.Search;
 import org.hibernate.search.SearchFactory;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
-// import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -58,7 +57,6 @@ public class DocumentSearchRepository {
 
     public List<Document> search(String text) throws JsonProcessingException {
 
-        // fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
 
         Session session = sessionFactory.openSession();
 
@@ -70,11 +68,6 @@ public class DocumentSearchRepository {
 
         // indexing();
 
-        // create the query using Hibernate Search query DSL
-        // QueryBuilder queryBuilder =
-        //         fullTextEntityManager.getSearchFactory()
-        //                 .buildQueryBuilder().forEntity(Document.class).get();
-
 
         SearchEntity searchEntity = new ObjectMapper().readValue(text, SearchEntity.class);
 
@@ -84,12 +77,6 @@ public class DocumentSearchRepository {
     .createQuery();
 
     FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, Document.class);
-
-        // Query query = queryBuilder
-        //         .keyword()
-        //         .onFields(fields)
-        //         .matching("*" + searchEntity.getQuery().toLowerCase() + "*")
-                // .createQuery();
 
         Integer firstResult = searchEntity.getPage() - 1;
         if(firstResult != 0){
@@ -113,17 +100,6 @@ public class DocumentSearchRepository {
         if(Objects.nonNull(sort)){
             fullTextQuery.setSort(sort);
         }
-            
-        
-
-        // wrap Lucene query in an Hibernate Query object
-        // FullTextQuery jpaQuery = fullTextEntityManager.createFullTextQuery(query, Document.class);
-        // jpaQuery
-        //         .setFirstResult(firstResult)
-        //         .setMaxResults(20);
-        // if(Objects.nonNull(sort)){
-        //     jpaQuery.setSort(sort);
-        // }
 
         // execute search and return results (sorted by relevance as default)
         @SuppressWarnings("unchecked")

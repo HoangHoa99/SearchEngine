@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.core.StopFilterFactory;
-import org.apache.lucene.analysis.ngram.NGramFilterFactory;
 import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
@@ -35,12 +34,6 @@ import lombok.Data;
     @TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = {
         @Parameter(name = "language", value = "English")
     })
-    // ,
-    // @TokenFilterDef(factory = NGramFilterFactory.class,
-    //   params = { 
-    //     @Parameter(name = "minGramSize", value = "1"),
-    //     @Parameter(name = "maxGramSize", value = "10") } 
-        // )
   }
 )
 @Entity 
